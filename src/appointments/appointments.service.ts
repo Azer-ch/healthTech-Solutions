@@ -8,6 +8,7 @@ import { NursesService } from 'src/nurses/nurses.service';
 import { PatientsService } from 'src/patients/patients.service';
 import { log } from 'console';
 import { CheckNurseDto } from './dto/check-nurse.dto';
+import {CheckEquipmentDto} from "./dto/check-equipment.dto";
 
 @Injectable()
 export class AppointmentsService {
@@ -87,4 +88,20 @@ export class AppointmentsService {
       return {check:false};
     }
   }
+
+    async checkEquipment(checkEquipmentDto: CheckEquipmentDto) {
+      try {
+        const equipment = await this.nursesService.findOne(checkEquipmentDto.equipmentId);
+        if (equipment === null) {
+          throw new NotFoundException(`equipment with id: ${checkEquipmentDto.equipmentId} does not exist!`);
+        }
+
+        if (!this.equipmentService.isAvailable(equipment, checkEquipmentDto.date)) {
+          throw new NotFoundException(`equipment with id: ${checkEquipmentDto.equipmentId} is not available!`);
+        }
+        return {check: true};
+      } catch (e) {
+        return {check: false};
+      }
+    }
 }

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { CheckNurseDto } from './dto/check-nurse.dto';
+import {CheckEquipmentDto} from "./dto/check-equipment.dto";
 
 
 @Controller('appointments')
@@ -31,9 +32,12 @@ export class AppointmentsController {
   //   return this.appointmentsService.findByNurseId(nurseId);
   // }
   @Get('/nurse/check')
-  check(@Body() checkNurseDto: CheckNurseDto) {
-    
-    return this.appointmentsService.checkNurse(checkNurseDto); 
+  checkNurse(@Body() checkNurseDto: CheckNurseDto) {
+    return this.appointmentsService.checkNurse(checkNurseDto);
   }
 
+  @Get('/equipment/check')
+  checkEquipment(@Body() checkEquipmentDto: CheckEquipmentDto) {
+    return this.appointmentsService.checkEquipment(checkEquipmentDto);
+  }
 }
