@@ -26,13 +26,14 @@ export class AppointmentsController {
   findByPatientId(@Param('patientId') patientId : string){
     return this.appointmentsService.findByPatientId(patientId);
   }
-  @Get('nurse/:nurseId')
-  findByNurseId(@Param('nurseId') nurseId : string){
-    return this.appointmentsService.findByNurseId(nurseId);
-  }
+  // @Get('nurse/:nurseId')
+  // findByNurseId(@Param('nurseId') nurseId : string){
+  //   return this.appointmentsService.findByNurseId(nurseId);
+  // }
   @Get('/nurse/check')
   check(@Body() checkNurseDto: CheckNurseDto) {
-    return this.appointmentsService.checkNurse(checkNurseDto);
+    
+    return this.appointmentsService.checkNurse(checkNurseDto); 
   }
 
 }

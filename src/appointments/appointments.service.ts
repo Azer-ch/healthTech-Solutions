@@ -73,16 +73,18 @@ export class AppointmentsService {
     return await this.appointmentRepo.findBy({nurse:{id:nurseId}});
   }
   async checkNurse(checkNurseDto: CheckNurseDto){
+    try {
+      const nurse = await this.nursesService.findOne(checkNurseDto.nurseId);
+      if (nurse === null) {
+        throw new NotFoundException(`nurse with id: ${checkNurseDto.nurseId} does not exist!`);
+      }
 
-    const nurse = await this.nursesService.findOne(checkNurseDto.nurseId);
-    if(nurse === null) {
-      throw new NotFoundException(`nurse with id: ${checkNurseDto.nurseId} does not exist!`);
+      if (!this.nursesService.isAvailable(nurse, checkNurseDto.date)) {
+        throw new NotFoundException(`nurse with id: ${checkNurseDto.nurseId} is not available!`);
+      }
+      return {check: true};
+    }catch (e) {
+      return {check:false};
     }
-
-    if (!this.nursesService.isAvailable(nurse, checkNurseDto.date)) {
-      throw new NotFoundException(`nurse with id: ${checkNurseDto.nurseId} is not available!`);
-    }
-    return nurse
-
   }
 }
