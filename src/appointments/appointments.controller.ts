@@ -31,12 +31,12 @@ export class AppointmentsController {
   // findByNurseId(@Param('nurseId') nurseId : string){
   //   return this.appointmentsService.findByNurseId(nurseId);
   // }
-  @Get('/nurse/check')
+  @Post('/nurse/check')
   checkNurse(@Body() checkNurseDto: CheckNurseDto) {
     return this.appointmentsService.checkNurse(checkNurseDto);
   }
 
-  @Get('/equipment/check')
+  @Post('/equipment/check')
   checkEquipment(@Body() checkEquipmentDto: CheckEquipmentDto) {
     return this.appointmentsService.checkEquipment(checkEquipmentDto);
   }
