@@ -3,6 +3,7 @@ import { AppointmentsService } from './appointments.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { CheckNurseDto } from './dto/check-nurse.dto';
 import {CheckEquipmentDto} from "./dto/check-equipment.dto";
+import {CheckPatientDto} from "./dto/check-patient.dto";
 
 
 @Controller('appointments')
@@ -39,5 +40,9 @@ export class AppointmentsController {
   @Post('/equipment/check')
   checkEquipment(@Body() checkEquipmentDto: CheckEquipmentDto) {
     return this.appointmentsService.checkEquipment(checkEquipmentDto);
+  }
+  @Post('/patient/check')
+  checkPatient(@Body() checkPatientDto: CheckPatientDto) {
+    return this.appointmentsService.checkPatient(checkPatientDto);
   }
 }

@@ -9,6 +9,7 @@ import { PatientsService } from 'src/patients/patients.service';
 import { log } from 'console';
 import { CheckNurseDto } from './dto/check-nurse.dto';
 import {CheckEquipmentDto} from "./dto/check-equipment.dto";
+import {CheckPatientDto} from "./dto/check-patient.dto";
 
 @Injectable()
 export class AppointmentsService {
@@ -91,7 +92,7 @@ export class AppointmentsService {
 
     async checkEquipment(checkEquipmentDto: CheckEquipmentDto) {
       try {
-        const equipment = await this.nursesService.findOne(checkEquipmentDto.equipmentId);
+        const equipment = await this.equipmentService.findOne(checkEquipmentDto.equipmentId);
         if (equipment === null) {
           throw new NotFoundException(`equipment with id: ${checkEquipmentDto.equipmentId} does not exist!`);
         }
@@ -104,4 +105,20 @@ export class AppointmentsService {
         return {check: false};
       }
     }
+
+  async checkPatient(checkPatientDto: CheckPatientDto) {
+    try {
+      const patient = await this.patientsService.findOne(checkPatientDto.patientId);
+      if (patient === null) {
+        throw new NotFoundException(`patient with id: ${checkPatientDto.patientId} does not exist!`);
+      }
+
+      if (!this.patientsService.isAvailable(patient, checkPatientDto.date)) {
+        throw new NotFoundException(`patient with id: ${checkPatientDto.patientId} is not available!`);
+      }
+      return {check: true};
+    } catch (e) {
+      return {check: false};
+    }
+  }
 }
